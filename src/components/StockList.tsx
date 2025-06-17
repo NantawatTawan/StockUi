@@ -4,51 +4,66 @@ export interface StockItem {
   weightValue: number;
   unit: string;
   quantity: number;
+  type: {
+    id: number;
+    name: string;
+  };
 }
 
-export default function StockList({ items }: { items: StockItem[] }) {
+interface Props {
+  items: StockItem[];
+}
+
+const typeNameMap: Record<number, string> = {
+  1: "แหวน",
+  3: "สร้อยคอ",
+  4: "สร้อยแขน",
+  5: "กำไล",
+  6: "ต่างหู",
+  7: "ทองคำแท่ง",
+  8: "อื่นๆ",
+};
+
+export default function StockList({ items }: Props) {
+  const summary = items.reduce<Record<number, number>>((acc, item) => {
+    const typeId = item.type?.id;
+    const qty = item.quantity || 0;
+    if (typeId && typeNameMap[typeId]) {
+      acc[typeId] = (acc[typeId] || 0) + qty;
+    }
+    return acc;
+  }, {});
+
+  const maxQty = Math.max(...Object.values(summary), 1); // กันหาร 0
+
   return (
     <div className="bg-white p-4 rounded shadow h-full">
       <h2 className="text-xl font-semibold mb-4">
-        สินค้าในคลัง ({items.length} รายการ)
+        สินค้าในคลัง (แยกตามประเภท)
       </h2>
 
-      <div className="overflow-y-auto max-h-96 border rounded">
-        <table className="min-w-full divide-y divide-gray-200">
-          <thead className="sticky top-0 bg-gray-100 z-10">
-            <tr>
-              <th className="text-left px-4 py-2 text-sm font-medium text-gray-600">
-                #
-              </th>
-              <th className="text-left px-4 py-2 text-sm font-medium text-gray-600">
-                ชื่อสินค้า
-              </th>
-              <th className="text-left px-4 py-2 text-sm font-medium text-gray-600">
-                น้ำหนัก
-              </th>
-              <th className="text-left px-4 py-2 text-sm font-medium text-gray-600">
-                จำนวนคงเหลือ
-              </th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-100">
-            {items.map((item, idx) => (
-              <tr key={item.id} className="hover:bg-gray-50">
-                <td className="px-4 py-2 text-sm text-gray-700">{idx + 1}</td>
-                <td className="px-4 py-2 text-sm text-gray-800">
-                  {item.itemName}
-                </td>
-                <td className="px-4 py-2 text-sm text-gray-600">
-                  {item.weightValue} {item.unit}
-                </td>
-                <td className="px-4 py-2 text-sm text-blue-700 font-semibold text-center">
-                  {item.quantity} ชิ้น
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+      <ul className="space-y-4">
+        {Object.entries(typeNameMap).map(([typeIdStr, name]) => {
+          const typeId = Number(typeIdStr);
+          const qty = summary[typeId] || 0;
+          const percent = Math.round((qty / maxQty) * 100);
+
+          return (
+            <li key={typeId}>
+              <div className="flex justify-between text-sm mb-1">
+                <span className="text-gray-700">{name}</span>
+                <span className="text-blue-700 font-semibold">{qty} ชิ้น</span>
+              </div>
+              <div className="w-full bg-gray-200 rounded h-3">
+                <div
+                  className="bg-blue-500 h-3 rounded"
+                  style={{ width: `${percent}%` }}
+                ></div>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
     </div>
   );
 }
