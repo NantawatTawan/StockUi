@@ -3,9 +3,10 @@ import type { Product } from "../../pages/ProductPage";
 interface Props {
   products: Product[];
   onDelete: (id: number) => void;
+  onEdit: (product: Product) => void;
 }
 
-export default function ProductTable({ products, onDelete }: Props) {
+export default function ProductTable({ products, onDelete, onEdit }: Props) {
   return (
     <div className="overflow-x-auto bg-white rounded shadow">
       <table className="min-w-full divide-y divide-gray-200">
@@ -25,6 +26,9 @@ export default function ProductTable({ products, onDelete }: Props) {
             </th>
             <th className="px-4 py-2 text-left text-sm font-medium text-gray-600">
               จำนวน
+            </th>
+            <th className="px-4 py-2 text-left text-sm font-medium text-gray-600">
+              หมายเหตุ
             </th>
             <th className="px-4 py-2 text-left text-sm font-medium text-gray-600">
               จัดการ
@@ -47,8 +51,14 @@ export default function ProductTable({ products, onDelete }: Props) {
               <td className="px-4 py-2 text-sm text-blue-700 font-semibold">
                 {product.quantity}
               </td>
+              <td className="px-4 py-2 text-sm text-gray-700">
+                {product.note || "-"}
+              </td>
               <td className="px-4 py-2 text-sm space-x-2">
-                <button className="text-yellow-600 hover:underline">
+                <button
+                  onClick={() => onEdit(product)}
+                  className="text-yellow-600 hover:underline"
+                >
                   แก้ไข
                 </button>
                 <button
