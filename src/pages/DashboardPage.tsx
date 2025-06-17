@@ -3,6 +3,7 @@ import axios from "axios";
 import RevenueSummary from "../components/RevenueSummary";
 import ActivityLog from "../components/ActivityLog";
 import StockList from "../components/StockList";
+
 import CustomerSearch from "../components/CustomerSearch";
 import RevenuePieChart from "../components/Chart/RevenuePieChart";
 import ActionButtons from "../components/ActionButtons";
@@ -18,6 +19,10 @@ interface StockItem {
   weightValue: number;
   unit: string;
   quantity: number;
+  type: {
+    id: number;
+    name: string;
+  };
 }
 
 export default function DashboardPage() {
