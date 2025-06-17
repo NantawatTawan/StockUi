@@ -84,7 +84,7 @@ export default function MainLayout() {
 
       {/* Drawer menu (mobile) */}
       {isMobileMenuOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50">
+        <div className="fixed inset-0 bg-transparent bg-opacity-50 z-50">
           <div className="w-64 bg-yellow-100 h-full p-4 shadow-xl">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-xl font-bold text-red-700">เมนู</h2>
