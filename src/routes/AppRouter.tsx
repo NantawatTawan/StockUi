@@ -3,6 +3,10 @@ import LoginPage from "../pages/LoginPage";
 import DashboardPage from "../pages/DashboardPage";
 import MainLayout from "../layouts/MainLayout";
 import ProductPage from "../pages/ProductPage";
+import PawnPage from "../pages/PawnPage";
+import PawnListDetailPage from "../pages/PawnDetailPage";
+import CustomerPage from "../pages/CustomerPage";
+import CustomerDetailPage from "../pages/CustomerDetailPage";
 
 export default function AppRouter() {
   return (
@@ -13,6 +17,13 @@ export default function AppRouter() {
         <Route element={<MainLayout />}>
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/products" element={<ProductPage />} />
+          <Route path="/pledges" element={<PawnPage />} />
+          <Route path="/pledges/detail" element={<PawnListDetailPage />} />
+          <Route path="/customers" element={<CustomerPage />} />
+          <Route
+            path="/customers/detail/:id"
+            element={<CustomerDetailPage />}
+          />
         </Route>
       </Routes>
     </BrowserRouter>
