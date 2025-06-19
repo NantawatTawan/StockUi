@@ -2,29 +2,11 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import type { Customer } from "./CustomerPage";
+import FormRow from "../components/FormRow";
 
 interface Tab {
   id: string;
   label: string;
-}
-
-function FormRow({
-  label,
-  children,
-  labelWidth = "w-[130px]",
-}: {
-  label: string;
-  children: React.ReactNode;
-  labelWidth?: string;
-}) {
-  return (
-    <div className="flex flex-col sm:flex-row sm:items-center gap-2 w-full">
-      <label className={`text-sm font-medium whitespace-nowrap ${labelWidth}`}>
-        {label}
-      </label>
-      <div className="flex-1">{children}</div>
-    </div>
-  );
 }
 
 export default function CustomerDetailPage() {
@@ -41,6 +23,28 @@ export default function CustomerDetailPage() {
   const [activeTab, setActiveTab] = useState<string>("ข้อมูลลูกค้า");
   const handleTabClick = (id: string) => {
     setActiveTab(id);
+  };
+
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedCustomer, setEditedCustomer] = useState<Customer | null>(null);
+
+  const handleSave = async () => {
+    try {
+      if (!editedCustomer) return;
+      await axios.put(
+        `http://localhost:8080/api/customers/${editedCustomer.id}`,
+        editedCustomer
+      );
+      setCustomer(editedCustomer);
+      setIsEditing(false);
+    } catch (err) {
+      console.log("อัปเดตไม่สำเร็จ", err);
+    }
+  };
+
+  const handleCancel = () => {
+    setEditedCustomer(null);
+    setIsEditing(false);
   };
 
   useEffect(() => {
@@ -94,7 +98,15 @@ export default function CustomerDetailPage() {
                   <input
                     type="text"
                     className="w-full border px-3 py-2 rounded"
-                    value={customer.name}
+                    value={
+                      isEditing ? editedCustomer?.name ?? "" : customer.name
+                    }
+                    onChange={(e) =>
+                      setEditedCustomer((prev) =>
+                        prev ? { ...prev, name: e.target.value } : prev
+                      )
+                    }
+                    readOnly={!isEditing}
                   />
                 </FormRow>
                 <FormRow label="วันที่เพิ่ม">
@@ -102,27 +114,72 @@ export default function CustomerDetailPage() {
                     type="date"
                     className="w-full border px-3 py-2 rounded"
                     value={customer.createdAt.substring(0, 10)}
+                    readOnly
+                  />
+                </FormRow>
+                <FormRow label="วันเกิด">
+                  <input
+                    type="date"
+                    className="w-full border px-3 py-2 rounded"
+                    value={customer.birthDate.substring(0, 10)}
+                    readOnly
+                  />
+                </FormRow>
+                <FormRow label="วันบัตรหมดอายุ">
+                  <input
+                    type="date"
+                    className="w-full border px-3 py-2 rounded"
+                    value={customer.expiryDate.substring(0, 10)}
+                    readOnly
                   />
                 </FormRow>
                 <FormRow label="เลขที่บัตรประชาชน">
                   <input
                     type="text"
                     className="w-full border px-3 py-2 rounded"
-                    value={customer.idCardData}
+                    value={
+                      isEditing
+                        ? editedCustomer?.idCardData ?? ""
+                        : customer.idCardData
+                    }
+                    onChange={(e) =>
+                      setEditedCustomer((prev) =>
+                        prev ? { ...prev, idCardData: e.target.value } : prev
+                      )
+                    }
+                    readOnly={!isEditing}
                   />
                 </FormRow>
                 <FormRow label="เบอร์โทรศัพท์">
                   <input
                     type="text"
                     className="w-full border px-3 py-2 rounded"
-                    value={customer.phone}
+                    value={
+                      isEditing ? editedCustomer?.phone ?? "" : customer.phone
+                    }
+                    onChange={(e) =>
+                      setEditedCustomer((prev) =>
+                        prev ? { ...prev, phone: e.target.value } : prev
+                      )
+                    }
+                    readOnly={!isEditing}
                   />
                 </FormRow>
                 <FormRow label="ที่อยู่">
                   <input
                     type="text"
                     className="w-full border px-3 py-2 rounded"
-                    value={customer.address}
+                    value={
+                      isEditing
+                        ? editedCustomer?.address ?? ""
+                        : customer.address
+                    }
+                    onChange={(e) =>
+                      setEditedCustomer((prev) =>
+                        prev ? { ...prev, address: e.target.value } : prev
+                      )
+                    }
+                    readOnly={!isEditing}
                   />
                 </FormRow>
               </div>
@@ -177,9 +234,33 @@ export default function CustomerDetailPage() {
         </div>
       </div>
       <div className="flex justify-end gap-2 mt-4">
-        <button className="mt-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
-          แก้ไข
-        </button>
+        {/* if isEditing -> Change แก้ไข to บันทึก&ยกเลิก */}
+        {isEditing ? (
+          <>
+            <button
+              className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+              onClick={handleSave}
+            >
+              บันทึก
+            </button>
+            <button
+              className="mt-4 px-4 py-2 bg-gray-400 text-white rounded hover:bg-gray-500"
+              onClick={handleCancel}
+            >
+              ยกเลิก
+            </button>
+          </>
+        ) : (
+          <button
+            className="mt-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+            onClick={() => {
+              setIsEditing(true);
+              setEditedCustomer(customer);
+            }}
+          >
+            แก้ไข
+          </button>
+        )}
         <button
           className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
           onClick={() => navigate(-1)}
