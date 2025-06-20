@@ -1,6 +1,6 @@
 import FormRow from "../components/FormRow";
 
-export default function PawnListDetailPage() {
+export default function PawnDetailPage() {
   return (
     <div className="p-6 space-y-4">
       <div className="flex justify-between items-center mb-4">

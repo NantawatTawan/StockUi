@@ -1,6 +1,5 @@
 import { useState } from "react";
-import AddPawnListModal from "./Pawn/AddPawnModal";
-
+import AddPawnModal from "./Pawn/AddPawnModal";
 export default function ActionButtons() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   return (
@@ -19,7 +18,7 @@ export default function ActionButtons() {
         <button className="w-full text-center bg-purple-500 text-white hover:bg-purple-600 px-4 py-3 rounded transition font-medium ">
           🏦 ออมทอง
         </button>
-        <AddPawnListModal
+        <AddPawnModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
         />

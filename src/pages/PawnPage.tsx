@@ -2,7 +2,7 @@ import { useState } from "react";
 import PawnListTable from "../components/Pawn/PawnListTable";
 import AddPawnModal from "../components/Pawn/AddPawnModal";
 
-export default function PawnListPage() {
+export default function PawnPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <div className="p-6 space-y-4">

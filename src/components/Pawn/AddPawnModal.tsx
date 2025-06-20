@@ -1,14 +1,11 @@
 import { useState } from "react";
 
-interface AddPawnListModalProps {
+interface AddPawnModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-export default function AddPawnListModal({
-  isOpen,
-  onClose,
-}: AddPawnListModalProps) {
+export default function AddPawnModal({ isOpen, onClose }: AddPawnModalProps) {
   const getDateNow = () => {
     const today = new Date();
     const yyyy = today.getFullYear();
