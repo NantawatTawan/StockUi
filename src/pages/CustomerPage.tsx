@@ -8,8 +8,6 @@ export interface Customer {
   name: string;
   phone: string;
   idCardData: string;
-  birthDate: string;
-  expiryDate: string;
   address: string;
   createdAt: string;
 }

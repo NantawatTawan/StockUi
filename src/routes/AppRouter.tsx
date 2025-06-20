@@ -7,6 +7,8 @@ import PawnPage from "../pages/PawnPage";
 import PawnDetailPage from "../pages/PawnDetailPage";
 import CustomerPage from "../pages/CustomerPage";
 import CustomerDetailPage from "../pages/CustomerDetailPage";
+import UserPage from "../pages/UserPage";
+import EmployeePage from "../pages/EmployeePage";
 
 export default function AppRouter() {
   return (
@@ -24,6 +26,8 @@ export default function AppRouter() {
             path="/customers/detail/:id"
             element={<CustomerDetailPage />}
           />
+          <Route path="/users" element={<UserPage />} />
+          <Route path="/employees" element={<EmployeePage />} />
         </Route>
       </Routes>
     </BrowserRouter>

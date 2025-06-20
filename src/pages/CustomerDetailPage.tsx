@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import type { Customer } from "./CustomerPage";
@@ -117,22 +117,7 @@ export default function CustomerDetailPage() {
                     readOnly
                   />
                 </FormRow>
-                <FormRow label="วันเกิด">
-                  <input
-                    type="date"
-                    className="w-full border px-3 py-2 rounded"
-                    value={customer.birthDate.substring(0, 10)}
-                    readOnly
-                  />
-                </FormRow>
-                <FormRow label="วันบัตรหมดอายุ">
-                  <input
-                    type="date"
-                    className="w-full border px-3 py-2 rounded"
-                    value={customer.expiryDate.substring(0, 10)}
-                    readOnly
-                  />
-                </FormRow>
+
                 <FormRow label="เลขที่บัตรประชาชน">
                   <input
                     type="text"
