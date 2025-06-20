@@ -59,6 +59,7 @@ export default function MainLayout() {
             <CustomLink to="/products" icon="📦" label="สินค้า" />
             <CustomLink to="/pledges" icon="💰" label="จำนำ" />
             <CustomLink to="/customers" icon="👤" label="ลูกค้า" />
+            <CustomLink to="/employees" icon="👥" label="พนักงาน" />
             <CustomLink to="/users" icon="🔐" label="ผู้ใช้" />
             <CustomLink to="/reports" icon="📑" label="รายงาน" />
             <CustomLink to="/notifications" icon="🔔" label="แจ้งเตือน" />
@@ -101,6 +102,7 @@ export default function MainLayout() {
               <CustomLink to="/products" icon="📦" label="สินค้า" />
               <CustomLink to="/pledges" icon="💰" label="จำนำ" />
               <CustomLink to="/customers" icon="👤" label="ลูกค้า" />
+              <CustomLink to="/employees" icon="👥" label="พนักงาน" />
               <CustomLink to="/users" icon="🔐" label="ผู้ใช้" />
               <CustomLink to="/reports" icon="📑" label="รายงาน" />
               <CustomLink to="/notifications" icon="🔔" label="แจ้งเตือน" />
