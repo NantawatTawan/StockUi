@@ -1,3 +1,4 @@
+import DataTable from "../ui/DataTable";
 import type { Product } from "../../pages/ProductPage";
 
 interface Props {
@@ -6,76 +7,53 @@ interface Props {
   onEdit: (product: Product) => void;
 }
 
-export default function ProductTable({ products, onDelete, onEdit }: Props) {
+export default function ProductTable({ products, onEdit }: Props) {
   return (
-    <div className="overflow-x-auto bg-white rounded shadow">
-      <table className="min-w-full divide-y divide-gray-200">
-        <thead className="bg-gray-100">
-          <tr>
-            <th className="px-4 py-2 text-left text-sm font-medium text-gray-600">
-              #
-            </th>
-            <th className="px-4 py-2 text-left text-sm font-medium text-gray-600">
-              ชื่อสินค้า
-            </th>
-            <th className="px-4 py-2 text-left text-sm font-medium text-gray-600">
-              ประเภท
-            </th>
-            <th className="px-4 py-2 text-left text-sm font-medium text-gray-600">
-              น้ำหนัก
-            </th>
-            <th className="px-4 py-2 text-left text-sm font-medium text-gray-600">
-              จำนวน
-            </th>
-            <th className="px-4 py-2 text-left text-sm font-medium text-gray-600">
-              หมายเหตุ
-            </th>
-            <th className="px-4 py-2 text-left text-sm font-medium text-gray-600">
+    <DataTable
+      data={products}
+      columns={[
+        {
+          header: "#",
+          render: (_, index) => index + 1,
+          width: "40px",
+        },
+        {
+          header: "ชื่อสินค้า",
+          render: (item) => item.itemName,
+        },
+        {
+          header: "ประเภท",
+          render: (item) => item.type?.name || "-",
+        },
+        {
+          header: "น้ำหนัก",
+          render: (item) => `${item.weightValue} ${item.unit}`,
+        },
+        {
+          header: "จำนวน",
+          render: (item) => (
+            <span className="text-blue-700 font-semibold">{item.quantity}</span>
+          ),
+        },
+        {
+          header: "หมายเหตุ",
+          render: (item) => item.note || "-",
+        },
+        {
+          header: "จัดการ",
+          render: (item) => (
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                onEdit(item);
+              }}
+              className="px-2 py-1 text-sm text-white bg-gray-600 hover:bg-gray-700 rounded"
+            >
               จัดการ
-            </th>
-          </tr>
-        </thead>
-        <tbody className="divide-y divide-gray-100">
-          {products.map((product, index) => (
-            <tr key={product.id} className="hover:bg-gray-50">
-              <td className="px-4 py-2 text-sm">{index + 1}</td>
-              <td className="px-4 py-2 text-sm text-gray-800">
-                {product.itemName}
-              </td>
-              <td className="px-4 py-2 text-sm text-gray-700">
-                {product.type?.name || "-"}
-              </td>
-              <td className="px-4 py-2 text-sm text-gray-700">
-                {product.weightValue} {product.unit}
-              </td>
-              <td className="px-4 py-2 text-sm text-blue-700 font-semibold">
-                {product.quantity}
-              </td>
-              <td className="px-4 py-2 text-sm text-gray-700">
-                {product.note || "-"}
-              </td>
-              <td className="px-4 py-2 text-sm space-x-2">
-                <button
-                  onClick={() => onEdit(product)}
-                  className="text-yellow-600 hover:underline"
-                >
-                  แก้ไข
-                </button>
-                <button
-                  onClick={() => {
-                    if (confirm("ต้องการลบสินค้านี้จริงหรือไม่?")) {
-                      onDelete(product.id);
-                    }
-                  }}
-                  className="text-red-600 hover:underline"
-                >
-                  ลบ
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+            </button>
+          ),
+        },
+      ]}
+    />
   );
 }

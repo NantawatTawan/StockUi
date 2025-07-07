@@ -1,6 +1,6 @@
+import DataTable from "../../components/ui/DataTable";
 import type { Employee } from "../../pages/EmployeePage";
-import { Button } from "../ui/Button";
-
+import { formatDateThaiFull } from "../ui/FormatDate";
 interface Props {
   employees: Employee[];
   onDelete: (id: number) => void;
@@ -9,49 +9,59 @@ interface Props {
 
 export default function EmployeeTable({ employees, onDelete, onEdit }: Props) {
   return (
-    <div className="overflow-x-auto bg-white rounded shadow">
-      <table className="min-w-full divide-y divide-gray-200">
-        <thead className="bg-gray-100">
-          <tr>
-            <th className="text-left p-2">ชื่อ</th>
-            <th className="text-left p-2">เบอร์โทร</th>
-            <th className="text-left p-2">ตำแหน่ง</th>
-            <th className="text-left p-2">วันที่เริ่ม</th>
-            <th className="text-left p-2">เงินเดือน</th>
-            <th className="text-left p-2">สถานะ</th>
-            <th className="text-left p-2">จัดการ</th>
-          </tr>
-        </thead>
-        <tbody>
-          {employees.map((emp) => (
-            <tr key={emp.id} className="border-t">
-              <td className="p-2">{emp.fullName}</td>
-              <td className="p-2">{emp.phone}</td>
-              <td className="p-2">{emp.position}</td>
-              <td className="p-2">
-                {new Date(emp.startDate).toLocaleDateString("th-TH")}
-              </td>
-              <td className="p-2">{emp.salary.toLocaleString()} บาท</td>
-              <td className="p-2">{emp.isActive ? "ใช้งาน" : "ไม่ใช้งาน"}</td>
-              <td className="p-2 space-x-2">
-                <Button
-                  className="text-sm px-3 py-1"
-                  onClick={() => onEdit(emp)}
-                >
-                  แก้ไข
-                </Button>
-                <Button
-                  className="text-sm px-3 py-1"
-                  variant="danger"
-                  onClick={() => onDelete(emp.id)}
-                >
-                  ลบ
-                </Button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <DataTable
+      data={employees}
+      columns={[
+        {
+          header: "#",
+          render: (_, i) => i + 1,
+          width: "40px",
+          className: "text-gray-500",
+        },
+        {
+          header: "ชื่อ",
+          render: (emp) => emp.fullName,
+        },
+        {
+          header: "เบอร์โทร",
+          render: (emp) => emp.phone,
+        },
+        {
+          header: "ตำแหน่ง",
+          render: (emp) => emp.position,
+        },
+        {
+          header: "วันที่เริ่ม",
+          render: (emp) => formatDateThaiFull(emp.startDate),
+        },
+        {
+          header: "เงินเดือน",
+          render: (emp) => emp.salary.toLocaleString() + " บาท",
+        },
+        {
+          header: "สถานะ",
+          render: (emp) => (emp.isActive ? "ใช้งาน" : "ไม่ใช้งาน"),
+        },
+        {
+          header: "จัดการ",
+          render: (emp) => (
+            <div className="space-x-2">
+              <button
+                onClick={() => onEdit(emp)}
+                className="text-yellow-700 hover:underline"
+              >
+                แก้ไข
+              </button>
+              <button
+                onClick={() => onDelete(emp.id)}
+                className="text-red-600 hover:underline"
+              >
+                ลบ
+              </button>
+            </div>
+          ),
+        },
+      ]}
+    />
   );
 }
