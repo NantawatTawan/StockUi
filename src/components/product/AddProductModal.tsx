@@ -12,6 +12,7 @@ interface AddProductModalProps {
   onClose: () => void;
   onProductAdded: () => void;
   productToEdit?: Product | null;
+  onDelete?: (id: number) => void;
 }
 
 export default function AddProductModal({
@@ -83,14 +84,27 @@ export default function AddProductModal({
       console.error("เกิดข้อผิดพลาดในการบันทึก:", err);
     }
   };
+  const handleDelete = async () => {
+    if (!productToEdit) return;
+    if (!confirm("คุณแน่ใจว่าต้องการลบสินค้านี้หรือไม่?")) return;
+
+    try {
+      await axios.delete(
+        `http://localhost:8080/api/stock-items/${productToEdit.id}`
+      );
+      onProductAdded();
+      onClose();
+    } catch (err) {
+      console.error("ลบสินค้าล้มเหลว", err);
+    }
+  };
 
   return (
-    <div className="fixed inset-0 z-50 bg-transparent bg-opacity-30 flex items-center justify-center">
+    <div className="fixed inset-0 z-50  bg-black/30 flex items-center justify-center">
       <div className="bg-white p-6 rounded-lg w-full max-w-md space-y-4">
         <h2 className="text-xl font-semibold">
           {productToEdit ? "แก้ไขสินค้า" : "เพิ่มสินค้าใหม่"}
         </h2>
-
         <div className="space-y-2">
           <input
             type="text"
@@ -146,19 +160,29 @@ export default function AddProductModal({
           ></textarea>
         </div>
 
-        <div className="flex justify-end gap-2 mt-4">
-          <button
-            onClick={onClose}
-            className="px-4 py-2 text-sm rounded bg-gray-300 hover:bg-gray-400"
-          >
-            ยกเลิก
-          </button>
-          <button
-            onClick={handleSubmit}
-            className="px-4 py-2 text-sm rounded bg-green-500 text-white hover:bg-green-600"
-          >
-            {productToEdit ? "อัปเดต" : "บันทึก"}
-          </button>
+        <div className="flex justify-between gap-2 mt-4">
+          {productToEdit && (
+            <button
+              onClick={handleDelete}
+              className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
+            >
+              ลบ
+            </button>
+          )}
+          <div className="flex gap-2 ml-auto">
+            <button
+              onClick={onClose}
+              className="bg-gray-400 hover:bg-gray-500 text-white px-4 py-2 rounded"
+            >
+              ยกเลิก
+            </button>
+            <button
+              onClick={handleSubmit}
+              className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
+            >
+              {productToEdit ? "อัปเดต" : "บันทึก"}
+            </button>
+          </div>
         </div>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Employee } from "../../pages/EmployeePage";
-
+import CustomDatePicker from "../ui/CustomDatePicker";
+import { formatDateThaiFull } from "../ui/FormatDate";
 interface Props {
   employee?: Employee;
   onClose: () => void;
@@ -70,7 +71,7 @@ export default function EmployeeFormModal({
   };
 
   return (
-    <div className="fixed inset-0 bg-transparent bg-opacity-40 flex items-center justify-center z-50">
+    <div className="fixed inset-0  bg-black/30 flex items-center justify-center z-50">
       <form
         onSubmit={handleSubmit}
         className="bg-white p-6 rounded-lg shadow-md w-full max-w-md"
@@ -101,12 +102,13 @@ export default function EmployeeFormModal({
         />
 
         <label className="block mb-1">วันที่เริ่มงาน</label>
-        <input
-          type="date"
-          className="border w-full mb-3 px-3 py-2 rounded"
-          value={startDate}
-          onChange={(e) => setStartDate(e.target.value)}
-        />
+        <CustomDatePicker value={startDate} onChange={setStartDate} />
+
+        {startDate && (
+          <div className="text-sm text-gray-500 mb-3">
+            {formatDateThaiFull(startDate)}
+          </div>
+        )}
 
         <label className="block mb-1">เงินเดือน</label>
         <input
