@@ -35,7 +35,7 @@ export default function LoginPage() {
           setError("เกิดข้อผิดพลาด กรุณาลองใหม่");
         }
       } else {
-        setError("เกิดข้อผิดพลาดที่ไม่รู้จัก");
+        setError("ติดต่อเจ้าหน้าที่ให้แก้ไข");
       }
     }
   };
