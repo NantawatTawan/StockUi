@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import EmployeeTable from "../components/employee/EmployeeTable";
 import EmployeeFormModal from "../components/employee/EmployeeFormModal";
-import { Button } from "../components/ui/Button";
 
 export interface Employee {
   id: number;
@@ -62,24 +61,25 @@ export default function EmployeePage() {
 
   return (
     <div className="p-4 space-y-4">
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">พนักงาน</h1>
-        <Button
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-2xl font-bold text-red-700">รายการพนักงาน</h1>
+        <button
           onClick={() => {
             setEditEmployee(undefined);
             setShowModal(true);
           }}
+          className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
         >
-          + เพิ่มพนักงาน
-        </Button>
+          ➕ เพิ่มพนักงาน
+        </button>
       </div>
 
       <input
         type="text"
+        placeholder="ค้นหาชื่อพนักงาน"
+        className="border px-3 py-2 rounded w-72"
         value={search}
         onChange={(e) => setSearch(e.target.value)}
-        placeholder="ค้นหาชื่อพนักงาน"
-        className="border w-full px-3 py-2 rounded shadow"
       />
 
       <EmployeeTable
