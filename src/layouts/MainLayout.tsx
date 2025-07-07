@@ -57,7 +57,7 @@ export default function MainLayout() {
           <nav className="flex flex-col gap-1">
             <CustomLink to="/dashboard" icon="📊" label="Dashboard" />
             <CustomLink to="/products" icon="📦" label="สินค้า" />
-            <CustomLink to="/pledges" icon="💰" label="จำนำ" />
+            <CustomLink to="/pawn" icon="💰" label="จำนำ" />
             <CustomLink to="/customers" icon="👤" label="ลูกค้า" />
             <CustomLink to="/employees" icon="👥" label="พนักงาน" />
             <CustomLink to="/users" icon="🔐" label="ผู้ใช้" />
@@ -100,7 +100,7 @@ export default function MainLayout() {
             <nav className="flex flex-col gap-2">
               <CustomLink to="/dashboard" icon="📊" label="Dashboard" />
               <CustomLink to="/products" icon="📦" label="สินค้า" />
-              <CustomLink to="/pledges" icon="💰" label="จำนำ" />
+              <CustomLink to="/pawn" icon="💰" label="จำนำ" />
               <CustomLink to="/customers" icon="👤" label="ลูกค้า" />
               <CustomLink to="/employees" icon="👥" label="พนักงาน" />
               <CustomLink to="/users" icon="🔐" label="ผู้ใช้" />
