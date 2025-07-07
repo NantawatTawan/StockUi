@@ -1,5 +1,5 @@
 import { useState } from "react";
-import AddPawnModal from "./Pawn/AddPawnModal";
+import AddPawnModal from "./pawn/AddPawnModal";
 export default function ActionButtons() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   return (
@@ -21,6 +21,7 @@ export default function ActionButtons() {
         <AddPawnModal
           isOpen={isModalOpen}
           onClose={() => setIsModalOpen(false)}
+          onPawnAdded={() => {}}
         />
       </div>
     </div>
